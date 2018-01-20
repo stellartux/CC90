@@ -83,3 +83,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+.npmignore
+gulpfile.js
+package.json
+yarn.lock
