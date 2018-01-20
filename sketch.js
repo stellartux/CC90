@@ -26,7 +26,7 @@ function setup() {
   resetButton = createButton('Reset');
   resetButton.mouseClicked(reset);
 
-  createA('', 'Source Code');
+  createA('https://github.com/stellartux/CC90', 'Source Code');
 
   noLoop();
   reset();
