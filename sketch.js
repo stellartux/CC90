@@ -1,4 +1,5 @@
-let inputFactor, inputUserPic, userFile, userImage, resetButton, ditherSelect;
+let inputFactor, inputUserPic, colorCheckbox, resetButton, ditherSelect;
+let userFile, userImage;
 
 function setup() {
   createElement("h2", "Dither Kitty!");
@@ -11,6 +12,9 @@ function setup() {
   ditherSelect.option("Simple");
   ditherSelect.option("Floyd-Steinberg");
   ditherSelect.changed(handleChange);
+
+  colorCheckbox = createCheckbox('Color', true);
+  colorCheckbox.changed(handleChange);
 
   createSpan("Dither amount: ");
   inputFactor = createSlider(1, 510, 255, 1);
@@ -51,6 +55,9 @@ function handleNewImage(file) {
 function display(img) {
   resizeCanvas(img.width, img.height);
   background(0);
+  if (!colorCheckbox.checked()) {
+    img.filter(GRAY);
+  }
   if (ditherSelect.value() === "Simple") {
     simpleDither(img);
   } else if (ditherSelect.value() === "Floyd-Steinberg") {
