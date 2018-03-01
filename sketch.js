@@ -1,5 +1,6 @@
 let inputFactor, inputUserPic, colorCheckbox, resetButton, ditherSelect;
 let userFile, userImage;
+let reharmoniseCheckbox, invertCheckbox;
 
 function setup() {
   createElement("h2", "Dither Kitty!");
@@ -15,6 +16,12 @@ function setup() {
 
   colorCheckbox = createCheckbox('Color', true);
   colorCheckbox.changed(handleChange);
+
+  invertCheckbox = createCheckbox('Invert', false);
+  invertCheckbox.changed(handleChange);
+
+  reharmoniseCheckbox = createCheckbox('Reharmonise', false);
+  reharmoniseCheckbox.changed(handleChange);
 
   createSpan("Dither amount: ");
   inputFactor = createSlider(1, 510, 255, 1);
@@ -57,6 +64,12 @@ function display(img) {
   background(0);
   if (!colorCheckbox.checked()) {
     img.filter(GRAY);
+  }
+  if (invertCheckbox.checked()) {
+    img.filter(INVERT)
+  }
+  if (reharmoniseCheckbox.checked()) {
+    reharmoniseColors(img);
   }
   if (ditherSelect.value() === "Simple") {
     simpleDither(img);
@@ -104,4 +117,24 @@ function quantise(value, factor = inputFactor.value()) {
 }
 function quantError(value, factor = inputFactor.value()) {
   return value - round(value / factor) * factor;
+}
+
+function reharmoniseColors(img) {
+  img.loadPixels();
+  for (i = 0; i < img.pixels.length; i += 4) {
+    let oldColor = {
+      r: img.pixels[i],
+      g: img.pixels[i+1],
+      b: img.pixels[i+2]
+    }
+    let newColor = {
+      r: oldColor.g / 2 + oldColor.b / 2,
+      g: oldColor.r / 2 + oldColor.b / 2,
+      b: oldColor.r / 2 + oldColor.g / 2
+    }
+    img.pixels[i] = newColor.r;
+    img.pixels[i+1] = newColor.g;
+    img.pixels[i+2] = newColor.b;
+  }
+  img.updatePixels();
 }
