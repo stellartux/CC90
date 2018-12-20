@@ -100,12 +100,12 @@ function floydSteinbergDither(img) {
       pixels[index + 4] += round(error * 7 / 16);
     }
     if (y < img.height - 1) {
-      pixels[index + y * 4] += round(error * 5 / 16);
+      pixels[index + img.width * 4] += round(error * 5 / 16);
       if (x > 0) {
-        pixels[index - 4 + y * 4] += round(error * 3 / 16);
+        pixels[index - 4 + img.width * 4] += round(error * 3 / 16);
       }
       if (x < img.width - 1) {
-        pixels[index + 4 + y * 4] += round(error / 16);
+        pixels[index + 4 + img.width * 4] += round(error / 16);
       }
     }
   });
